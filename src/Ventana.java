@@ -61,7 +61,7 @@ public class Ventana extends JFrame implements ActionListener {
 		this.Tablero.setLayout(new GridLayout(Variables.getWidth(),Variables.getHeigh(),0,0));
 		
 		
-		//
+		
 		this.botones = new JButton[Variables.getWidth()][Variables.getHeigh()];
 		for(int i = Variables.getWidth()-1; i >=0; i--) {
 			for(int j=0; j<Variables.getHeigh(); j++) {
