@@ -3,8 +3,6 @@ public class Nodo implements Comparable<Nodo> {
 	private int x;
 	private int y;
 	private double f;
-	//private double distanciaAlPadre;
-	//private Nodo target;
 	private Nodo padre;
 	
 	public Nodo(Nodo padre, int x, int y) {
@@ -14,10 +12,7 @@ public class Nodo implements Comparable<Nodo> {
 		
 		calculaF();
 	}
-//	
-//	public Nodo (int x, int y) {
-//		
-//	}
+	
 	 @Override
      public int compareTo(Nodo o) {
          if ( this.f < o.f) {

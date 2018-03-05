@@ -1,12 +1,8 @@
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ACtrl {
 	private int[][] map;
 	private Nodo actual;
-	//private Nodo inicial;
-	//private List<Nodo> path;
 	
 	public ACtrl(Nodo actual, int[][] map ) {
 		//this.inicial = inicial;

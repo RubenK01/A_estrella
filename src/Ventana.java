@@ -172,24 +172,6 @@ public class Ventana extends JFrame implements ActionListener {
 		
 		btnAniadirFin.addActionListener(this);
 		
-		////////////////
-		
-//		btnPintaTablero.addActionListener(new ActionListener() {
-//			 public void actionPerformed(ActionEvent e)
-//			  {
-//				Variables.setHeigh(Integer.parseInt(textFieldY.getText()));
-//				Variables.setWidth(Integer.parseInt(textFieldX.getText()));
-//				
-//				
-//				
-//				
-//				Ventana.this.pintarTablero();
-//				
-//				
-//			  }
-//			});
-		
-			
 			///////////////////////
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
