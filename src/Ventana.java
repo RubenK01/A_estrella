@@ -11,6 +11,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -30,12 +31,15 @@ public class Ventana extends JFrame implements ActionListener {
 	private JButton btnCalculaA;
 	private JButton btnAniadirIni;
 	private JButton btnAniadirFin;
+	private JButton btnWayPoint;
 	
 	private JButton[][] botones;
 	private JTextField textField_InicioX;
 	private JTextField textField_InicioY;
 	private JTextField textField_XFinal;
 	private JTextField textField_YFinal;
+	private JTextField textFieldX_WPoint;
+	private JTextField textFieldY_WPoint;
 
 	/**
 	 * Launch the application.
@@ -79,6 +83,11 @@ public class Ventana extends JFrame implements ActionListener {
 				else if (Variables.getMap()[i][j] == 3) { //fin
 					this.botones[i][j].setBackground(Color.GREEN);
 				}
+				else if (Variables.getMap()[i][j] > 3) { //fin
+					String text = (String.valueOf( Variables.getMap()[i][j] - 3 )) ;
+					this.botones[i][j].setText(text);
+					this.botones[i][j].setBackground(Color.yellow);
+				}
 				else {
 					this.botones[i][j].setBackground(Color.white);
 				}
@@ -119,7 +128,7 @@ public class Ventana extends JFrame implements ActionListener {
 		
 		btnPintaTablero.addActionListener(this);
 		
-		JLabel lblAadePuntos = new JLabel("A\u00F1ade puntos:");
+		JLabel lblAadePuntos = new JLabel("A\u00F1ade/elimina puntos:");
 		
 		textFieldX_Fail = new JTextField();
 		textFieldX_Fail.setColumns(10);
@@ -172,7 +181,30 @@ public class Ventana extends JFrame implements ActionListener {
 		
 		btnAniadirFin.addActionListener(this);
 		
+		JLabel lblAadeWayPoint = new JLabel("A\u00F1ade way point:");
+		
+		JLabel lblX_3 = new JLabel("X:");
+		
+		textFieldX_WPoint = new JTextField();
+		textFieldX_WPoint.setColumns(10);
+		
+		JLabel lblY_3 = new JLabel("Y:");
+		
+		textFieldY_WPoint = new JTextField();
+		textFieldY_WPoint.setColumns(10);
+		
+		btnWayPoint = new JButton("A\u00F1adir");
+		btnWayPoint.addActionListener(this);
+		
 			///////////////////////
+		textFieldX.setText("10");
+		textFieldY.setText("10");
+		
+		Variables.setHeigh(Integer.parseInt(textFieldX.getText()));
+		Variables.setWidth(Integer.parseInt(textFieldY.getText()));		
+		
+		Utils.construyeMap();
+		this.pintarTablero();
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -181,7 +213,7 @@ public class Ventana extends JFrame implements ActionListener {
 					.addComponent(Tablero, GroupLayout.PREFERRED_SIZE, 557, GroupLayout.PREFERRED_SIZE)
 					.addGap(32)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnCalculaA, GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+						.addComponent(btnCalculaA, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
 						.addComponent(lblEligeDimensiones)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(textFieldX, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
@@ -189,40 +221,50 @@ public class Ventana extends JFrame implements ActionListener {
 							.addComponent(textFieldY, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
 						.addComponent(btnPintaTablero)
 						.addComponent(btnAniadirFail)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblX)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(textFieldX_Fail, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-									.addGap(27)
-									.addComponent(lblY))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnAniadirIni, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
-										.addComponent(btnAniadirFin, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(lblAadePuntos)
+						.addComponent(lblAadeWayPoint)
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addComponent(lblX)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(textFieldX_Fail, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+										.addGap(27)
+										.addComponent(lblY))
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addComponent(btnAniadirIni, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+											.addComponent(btnAniadirFin, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addComponent(lblX_2, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+													.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+													.addComponent(textField_XFinal, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
+												.addComponent(lblNewLabel))
 											.addGroup(gl_contentPane.createSequentialGroup()
-												.addComponent(lblX_2, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(textField_XFinal, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
-											.addComponent(lblNewLabel))
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(lblX_1)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(textField_InicioX, GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
-										.addComponent(lblAadeInicio))
-									.addPreferredGap(ComponentPlacement.RELATED, 15, GroupLayout.PREFERRED_SIZE)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblY_2)
-										.addComponent(lblY_1))))
-							.addPreferredGap(ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(lblX_1)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(textField_InicioX, GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
+											.addComponent(lblAadeInicio))
+										.addPreferredGap(ComponentPlacement.RELATED, 15, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addComponent(lblY_2)
+											.addComponent(lblY_1))))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblX_3)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(textFieldX_WPoint, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lblY_3))
+								.addComponent(btnWayPoint, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(textFieldY_WPoint, 0, 0, Short.MAX_VALUE)
 								.addComponent(textFieldY_Fail, 0, 0, Short.MAX_VALUE)
 								.addComponent(textField_InicioY, 0, 0, Short.MAX_VALUE)
 								.addComponent(textField_YFinal, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
-							.addGap(28))
-						.addComponent(lblAadePuntos))
+							.addGap(50)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -266,10 +308,20 @@ public class Ventana extends JFrame implements ActionListener {
 						.addComponent(textField_XFinal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnAniadirFin)
-					.addPreferredGap(ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblAadeWayPoint)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblX_3)
+						.addComponent(textFieldX_WPoint, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblY_3)
+						.addComponent(textFieldY_WPoint, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnWayPoint)
+					.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
 					.addComponent(btnCalculaA, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
-				.addComponent(Tablero, GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
+				.addComponent(Tablero, GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -278,68 +330,166 @@ public class Ventana extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if(e.getSource() == this.btnPintaTablero) {
-			Variables.setHeigh(Integer.parseInt(textFieldX.getText()));
-			Variables.setWidth(Integer.parseInt(textFieldY.getText()));		
+			if(Utils.isNumeric(textFieldX.getText()) && Utils.isNumeric(textFieldY.getText())) {
+				Variables.setHeigh(Integer.parseInt(textFieldX.getText()));
+				Variables.setWidth(Integer.parseInt(textFieldY.getText()));		
+				
+				Utils.construyeMap();
+				this.pintarTablero();
+				Utils.limpiaDatos();
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Introduce valores numéricos.");
+			}
 			
-			Utils.construyeMap();
-			this.pintarTablero();
-			Utils.limpiaDatos();
+			
 			
 		}
 		else if(e.getSource() == this.btnAniadirFail) {
-			int y = Integer.parseInt(textFieldX_Fail.getText()) - 1;
-			int x = Integer.parseInt(textFieldY_Fail.getText()) - 1;
-			
-			Utils.addFail(x, y);
-			
-			this.pintarTablero();
+			if( Utils.isNumeric(textFieldX_Fail.getText()) && Utils.isNumeric(textFieldY_Fail.getText()) ) {
+				int y = Integer.parseInt(textFieldX_Fail.getText()) - 1;
+				int x = Integer.parseInt(textFieldY_Fail.getText()) - 1;
+				
+				if(x < 0 || x >= Variables.getWidth() || y < 0 || y >=  Variables.getHeigh()   ) {
+					JOptionPane.showMessageDialog(null, "Introduce valores correspondientes a la anchura (x) y altura (y) del mapa.");
+				}
+				else {
+					
+					if(Variables.getMap()[x][y] == -1) {
+						Variables.getMap()[x][y] = 0;
+						
+						this.pintarTablero();
+					}
+					else if(Variables.getMap()[x][y] == 0) {
+						Utils.addFail(x, y);
+						
+						this.pintarTablero();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "El punto que intentas añadir ya está ocupado.");
+					}
+					
+				}
+				
+				
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Introduce valores numéricos.");
+			}
 			
 		}
 		else if(e.getSource() == this.btnAniadirIni) {
-			int y = Integer.parseInt(textField_InicioX.getText()) - 1;
-			int x = Integer.parseInt(textField_InicioY.getText()) - 1;
+			
+			if(Utils.isNumeric(textField_InicioX.getText()) && Utils.isNumeric(textField_InicioY.getText())) {
+				int y = Integer.parseInt(textField_InicioX.getText()) - 1;
+				int x = Integer.parseInt(textField_InicioY.getText()) - 1;
 
-			Nodo inicial = new Nodo(null,x,y);
-			Variables.setInicial(inicial);
-			
-			Utils.addIni(x, y);
-			
-			this.pintarTablero();		
+				if(Variables.getMap()[x][y] == 0) {
+					Nodo inicial = new Nodo(null,x,y);
+					Variables.setInicial(inicial);
+					
+					Utils.addIni(x, y);
+					
+					this.pintarTablero();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "El punto que intentas añadir ya está ocupado.");
+				}
+				
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Introduce valores numéricos.");
+			}
+					
 		}
 		else if(e.getSource() == this.btnAniadirFin) {
-			int y = Integer.parseInt(textField_XFinal.getText()) - 1;
-			int x = Integer.parseInt(textField_YFinal.getText()) - 1;
-			
-			Nodo n = new Nodo(null, x, y);
-			Variables.setTarget(n);
-			
-			Utils.addFin(x, y);
-			
-			this.pintarTablero();
-		}
-		else if(e.getSource() == this.btnCalculaA) {
-			Variables.setAbierta( new ArrayList<Nodo>());
-			List<Nodo> cerr = new ArrayList<Nodo>();
-			Variables.setCerrada(cerr);
-			
-			ACtrl a_Est = new ACtrl(Variables.getInicial(), Variables.getMap());
-		
-			a_Est.calculaPathMinimo();
-			
-			Utils.pathHastaInicio();
-			
-			this.pintarTablero();
-			
-			//limpia recorrido
-			
-			for(int i = 0; i < Variables.getMap().length; i++) {
-				for (int j =0; j < Variables.getMap()[i].length ; j++) {
-					if(Variables.getMap()[i][j] == 1)
-						Variables.getMap()[i][j] = 0;
+
+			if(Utils.isNumeric(textField_XFinal.getText()) && Utils.isNumeric(textField_YFinal.getText())) {
+				int y = Integer.parseInt(textField_XFinal.getText()) - 1;
+				int x = Integer.parseInt(textField_YFinal.getText()) - 1;
+				
+				if(Variables.getMap()[x][y] == 0) {
+					Nodo n = new Nodo(null, x, y);
+					Variables.setTarget(n);
+					
+					Utils.addFin(x, y);
+					
+					this.pintarTablero();
 				}
+				else {
+					JOptionPane.showMessageDialog(null, "El punto que intentas añadir ya está ocupado.");
+				}
+				
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Introduce valores numéricos.");
 			}
 			
-			Variables.getTarget().setPadre(null);
+		}
+		else if(e.getSource() == this.btnCalculaA) {
+			//comprobar si la lista waypoint esta vacia o no
+			//si no esta vacia comprobamos 
+			//si hay inicial y target, lo añado inicial al inicio de la lista y target al final, recorro con for todos los puntos
+			//despues de calcular limpiamos y quitamos inicial y final de la lista, y quitamos el padre del target
+			
+			//si la lista esta vacia hace esto
+			if(Variables.getInicial() != null && Variables.getTarget() != null) {
+				Variables.setAbierta( new ArrayList<Nodo>());
+				List<Nodo> cerr = new ArrayList<Nodo>();
+				Variables.setCerrada(cerr);
+				
+				ACtrl a_Est = new ACtrl(Variables.getInicial(), Variables.getMap());
+			
+				a_Est.calculaPathMinimo();
+				
+				if(Variables.getTarget().getPadre() != null) {
+					Utils.pathHastaInicio();
+					
+					this.pintarTablero();
+					
+					//limpia recorrido
+					
+					for(int i = 0; i < Variables.getMap().length; i++) {
+						for (int j =0; j < Variables.getMap()[i].length ; j++) {
+							if(Variables.getMap()[i][j] == 1)
+								Variables.getMap()[i][j] = 0;
+						}
+					}
+					
+					Variables.getTarget().setPadre(null);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Es imposible realizar el recorrido.");
+				}
+				
+				
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Se debe añadir, como mínimo, un punto inicial y un punto final.");
+			}
+			
+			
+		} else if(e.getSource() == this.btnWayPoint) {
+			if(Utils.isNumeric(textFieldY_WPoint.getText()) && Utils.isNumeric(textFieldX_WPoint.getText())) {
+				int y = Integer.parseInt(textFieldX_WPoint.getText()) - 1;
+				int x = Integer.parseInt(textFieldY_WPoint.getText()) - 1;
+				
+				if(Variables.getMap()[x][y] == 0) {
+					Nodo n = new Nodo(null, x ,y);
+					Variables.getWayPoints().add(n);
+					
+					Variables.getMap()[x][y] = Variables.getWayPoints().size() + 3;
+					
+					this.pintarTablero();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "El punto que intentas añadir ya está ocupado.");
+				}
+				
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Introduce valores numéricos.");
+			}
 		}
 		
 		

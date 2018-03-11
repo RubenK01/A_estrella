@@ -1,9 +1,11 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Variables {
 	private static  List<Nodo> abierta;
 	private static List<Nodo> cerrada;
+	private static List<Nodo> wayPoints = new ArrayList<Nodo>();
 	private static Nodo target;
 	private static Nodo inicial;
 	private static int heigh;
@@ -51,6 +53,12 @@ public class Variables {
 	}
 	public static void setHeigh(int heigh) {
 		Variables.heigh = heigh;
+	}
+	public static List<Nodo> getWayPoints() {
+		return wayPoints;
+	}
+	public static void setWayPoints(List<Nodo> wayPoints) {
+		Variables.wayPoints = wayPoints;
 	}
 	
 

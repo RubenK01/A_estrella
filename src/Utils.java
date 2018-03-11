@@ -1,8 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JButton;
-
 public class Utils {
 	
 	public static void pathHastaInicio() {
@@ -22,6 +17,20 @@ public class Utils {
 	public static void addFail(int x, int y) {
 		Variables.getMap()[x][y] = -1;
 	}
+	
+	public static boolean isNumeric(String cadena) {
+
+        boolean resultado;
+
+        try {
+            Integer.parseInt(cadena);
+            resultado = true;
+        } catch (NumberFormatException excepcion) {
+            resultado = false;
+        }
+
+        return resultado;
+    }
 	
 	public static void addIni(int x, int y) {
 		for(int i = Variables.getWidth()-1; i >=0; i--) {
