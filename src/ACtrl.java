@@ -136,11 +136,6 @@ public class ACtrl {
 			List<Nodo> ab = Variables.getAbierta();
 			ab.remove(actual);
 			Variables.setAbierta(ab);
-			if(Variables.getCerrada().size() >= 80) {
-				int i = 1;
-				
-				i++;
-			}
 			if(!Variables.getAbierta().isEmpty()) {
 				ACtrl aEst = new ACtrl(Variables.getAbierta().get(0), this.map );
 				aEst.calculaPathMinimo();

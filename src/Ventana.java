@@ -432,19 +432,34 @@ public class Ventana extends JFrame implements ActionListener {
 			//si hay inicial y target, lo añado inicial al inicio de la lista y target al final, recorro con for todos los puntos
 			//despues de calcular limpiamos y quitamos inicial y final de la lista, y quitamos el padre del target
 			
+			
 			//si la lista esta vacia hace esto
 			if(Variables.getInicial() != null && Variables.getTarget() != null) {
-				Variables.setAbierta( new ArrayList<Nodo>());
-				List<Nodo> cerr = new ArrayList<Nodo>();
-				Variables.setCerrada(cerr);
-				
-				ACtrl a_Est = new ACtrl(Variables.getInicial(), Variables.getMap());
-			
-				a_Est.calculaPathMinimo();
-				
-				if(Variables.getTarget().getPadre() != null) {
-					Utils.pathHastaInicio();
+				if(!Variables.getWayPoints().isEmpty()) {
+					Variables.getWayPoints().add(0, Variables.getInicial());
+					Variables.getWayPoints().add(Variables.getWayPoints().size(), Variables.getTarget());
 					
+					for(int i = 0; i < Variables.getWayPoints().size()-1; i++) {
+						Variables.setAbierta( new ArrayList<Nodo>());
+						List<Nodo> cerr = new ArrayList<Nodo>();
+						Variables.setCerrada(cerr);
+						
+						Variables.setInicial(Variables.getWayPoints().get(i));
+						Variables.setTarget(Variables.getWayPoints().get(i+1));
+						
+						ACtrl a_Est = new ACtrl(Variables.getInicial(), Variables.getMap());
+					
+						a_Est.calculaPathMinimo();
+						
+						if(Variables.getTarget().getPadre() != null) {
+							Utils.pathHastaInicio();
+							
+							Variables.getTarget().setPadre(null);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Es imposible realizar el recorrido.");
+						}
+					}
 					this.pintarTablero();
 					
 					//limpia recorrido
@@ -457,10 +472,38 @@ public class Ventana extends JFrame implements ActionListener {
 					}
 					
 					Variables.getTarget().setPadre(null);
+					
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Es imposible realizar el recorrido.");
+					Variables.setAbierta( new ArrayList<Nodo>());
+					List<Nodo> cerr = new ArrayList<Nodo>();
+					Variables.setCerrada(cerr);
+					
+					ACtrl a_Est = new ACtrl(Variables.getInicial(), Variables.getMap());
+				
+					a_Est.calculaPathMinimo();
+					
+					if(Variables.getTarget().getPadre() != null) {
+						Utils.pathHastaInicio();
+						
+						this.pintarTablero();
+						
+						//limpia recorrido
+						
+						for(int i = 0; i < Variables.getMap().length; i++) {
+							for (int j =0; j < Variables.getMap()[i].length ; j++) {
+								if(Variables.getMap()[i][j] == 1)
+									Variables.getMap()[i][j] = 0;
+							}
+						}
+						
+						Variables.getTarget().setPadre(null);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Es imposible realizar el recorrido.");
+					}
 				}
+				
 				
 				
 			}

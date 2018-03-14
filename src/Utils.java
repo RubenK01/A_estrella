@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Utils {
 	
 	public static void pathHastaInicio() {
@@ -72,6 +74,7 @@ public class Utils {
 	public static void limpiaDatos() {
 		Variables.setTarget(null);
 		Variables.setInicial(null);
+		Variables.setWayPoints(new ArrayList<Nodo>());
 		
 		
 		
