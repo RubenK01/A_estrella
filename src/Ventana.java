@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("serial")
 public class Ventana extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
@@ -57,11 +58,14 @@ public class Ventana extends JFrame implements ActionListener {
 		});
 	}
 
-	private void pintarTablero() {
+	public void pintarTablero() {
 		
 		//this.Tablero = new JPanel();
 		this.Tablero.repaint();
+
 		this.Tablero.removeAll();
+
+		
 		this.Tablero.setLayout(new GridLayout(Variables.getWidth(),Variables.getHeigh(),0,0));
 		
 		
@@ -83,7 +87,7 @@ public class Ventana extends JFrame implements ActionListener {
 				else if (Variables.getMap()[i][j] == 3) { //fin
 					this.botones[i][j].setBackground(Color.GREEN);
 				}
-				else if (Variables.getMap()[i][j] > 3) { //fin
+				else if (Variables.getMap()[i][j] > 3) { //wayPoints
 					String text = (String.valueOf( Variables.getMap()[i][j] - 3 )) ;
 					this.botones[i][j].setText(text);
 					this.botones[i][j].setBackground(Color.yellow);
@@ -447,6 +451,8 @@ public class Ventana extends JFrame implements ActionListener {
 						Variables.setInicial(Variables.getWayPoints().get(i));
 						Variables.setTarget(Variables.getWayPoints().get(i+1));
 						
+						Variables.getTarget().setPadre(null);
+						
 						ACtrl a_Est = new ACtrl(Variables.getInicial(), Variables.getMap());
 					
 						a_Est.calculaPathMinimo();
@@ -458,6 +464,7 @@ public class Ventana extends JFrame implements ActionListener {
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Es imposible realizar el recorrido.");
+							break;
 						}
 					}
 					this.pintarTablero();
@@ -470,6 +477,11 @@ public class Ventana extends JFrame implements ActionListener {
 								Variables.getMap()[i][j] = 0;
 						}
 					}
+					
+					Variables.setInicial(Variables.getWayPoints().get(0));
+					Variables.setTarget(Variables.getWayPoints().get(Variables.getWayPoints().size()-1));
+					Variables.getWayPoints().remove(0);
+					Variables.getWayPoints().remove(Variables.getWayPoints().size()-1);
 					
 					Variables.getTarget().setPadre(null);
 					
@@ -517,17 +529,24 @@ public class Ventana extends JFrame implements ActionListener {
 				int y = Integer.parseInt(textFieldX_WPoint.getText()) - 1;
 				int x = Integer.parseInt(textFieldY_WPoint.getText()) - 1;
 				
-				if(Variables.getMap()[x][y] == 0) {
-					Nodo n = new Nodo(null, x ,y);
-					Variables.getWayPoints().add(n);
-					
-					Variables.getMap()[x][y] = Variables.getWayPoints().size() + 3;
-					
-					this.pintarTablero();
+				if(x < 0 || x >= Variables.getWidth() || y < 0 || y >=  Variables.getHeigh()   ) {
+					JOptionPane.showMessageDialog(null, "Introduce valores correspondientes a la anchura (x) y altura (y) del mapa.");
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "El punto que intentas añadir ya está ocupado.");
+					if(Variables.getMap()[x][y] == 0) {
+						Nodo n = new Nodo(null, x ,y);
+						Variables.getWayPoints().add(n);
+						
+						Variables.getMap()[x][y] = Variables.getWayPoints().size() + 3;
+						
+						this.pintarTablero();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "El punto que intentas añadir ya está ocupado.");
+					}
 				}
+				
+				
 				
 			}
 			else {
