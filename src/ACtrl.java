@@ -116,33 +116,22 @@ public class ACtrl {
 			creaAñadeMejorNodo(n, n.getX()+1, n.getY()-1);
 		}
 		
-		
-		
 	}
 	
 	
 	
 	
-	public void calculaPathMinimo() {//CALCULAR PATH EN EL MAIN (TIRANDO DE SUS PADRES)
-		//si actual es main.TARGET y nada en abierta imprimir soluc
-//		if(this.actual.equals(Variables.getTarget()) /*&& this.abierta.isEmpty()*/) {
-//			return pathHastaInicio();
-//		}
-//		else {
-			//poner el actual a cerrada y quitar de abierta
-			List<Nodo> cerr = Variables.getCerrada();
-			cerr.add(actual);
-			Variables.setCerrada(cerr);
-			List<Nodo> ab = Variables.getAbierta();
-			ab.remove(actual);
-			Variables.setAbierta(ab);
-			if(!Variables.getAbierta().isEmpty()) {
-				ACtrl aEst = new ACtrl(Variables.getAbierta().get(0), this.map );
-				aEst.calculaPathMinimo();
-			}
-//			else 
-//				return null;
-		
-		
+	public void calculaPathMinimo() {
+		//poner el actual a cerrada y quitar de abierta
+		List<Nodo> cerr = Variables.getCerrada();
+		cerr.add(actual);
+		Variables.setCerrada(cerr);
+		List<Nodo> ab = Variables.getAbierta();
+		ab.remove(actual);
+		Variables.setAbierta(ab);
+		if(!Variables.getAbierta().isEmpty()) {
+			ACtrl aEst = new ACtrl(Variables.getAbierta().get(0), this.map );
+			aEst.calculaPathMinimo();
+		}				
 	}		
 }
